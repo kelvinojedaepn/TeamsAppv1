@@ -18,6 +18,8 @@ import com.example.teamsappv1.Adapter.ChatOptionAdapter
 class ChatFragment : Fragment() {
 
     private lateinit var root: View
+    private var chatOptionList: MutableList<ChatOption> = ChatProvider.chatList.toMutableList()
+    private lateinit var adapter: ChatOptionAdapter
 
 
 
@@ -33,18 +35,21 @@ class ChatFragment : Fragment() {
         root = inflater.inflate(R.layout.fragment_chat, container, false)
         initRecyclerView()
         val botonSearch = root.findViewById<EditText>(R.id.etFilter)
-        botonSearch.addTextChangedListener {
-
+        botonSearch.addTextChangedListener { nameFilter->
+            val chatFilterList = chatOptionList.filter { chatItem -> chatItem.name.lowercase().contains(nameFilter.toString().lowercase())  }
+            adapter.updateChatOptions(chatFilterList)
         }
+
         return root
     }
 
     private fun initRecyclerView() {
+        adapter = ChatOptionAdapter(chatOptionList)
         val manager = LinearLayoutManager(root.context)
         val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerViewChat)
         val decoration = DividerItemDecoration(recyclerView.context, manager.orientation)
         recyclerView.layoutManager = manager
-        recyclerView.adapter = ChatOptionAdapter(ChatProvider.chatList)
+        recyclerView.adapter = adapter
         recyclerView.addItemDecoration(decoration)
     }
 

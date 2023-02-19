@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 
 class ActivityFragment : Fragment() {
+    lateinit var root: View
 
 
     override fun onCreateView(
@@ -15,7 +17,9 @@ class ActivityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activity, container, false)
+        root = inflater.inflate(R.layout.fragment_activity, container, false)
+
+        return root
     }
 
 
